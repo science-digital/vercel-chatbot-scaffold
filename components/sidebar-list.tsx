@@ -51,29 +51,26 @@ export async function SidebarList({ userId }: SidebarListProps) {
             <div className="space-y-2 px-2">
               <SidebarItems chats={chats} />
             </div>
-          ) : (
-            <div className="p-2 text-center">
-              <p className="text-sm text-muted-foreground">
-                <Button variant="link" asChild>
-                  <Link href="/login">Login</Link>
-                </Button>{' '}
-                or Sign up
-              </p>
-            </div>
-          )}
-          {routes.map(tab => (
-            <button
-              key={tab.id}
+          ) : // <div className="p-2 text-center">
+          //   <p className="text-sm text-muted-foreground">
+          //     No ideation sessions yet.
+          //   </p>
+          // </div>
+          null}
+          {routes.map(route => (
+            <Link
+              key={route.id}
+              href={`/${route.id}`}
               // onClick={() => setActiveTab(tab.id)}
-              className={`w-full text-left px-4 py-2 mb-2 rounded transition-colors duration-150 ease-in-out ${
+              className={`w-full block text-left px-4 py-2 mb-2 rounded transition-colors duration-150 ease-in-out ${
                 ''
                 // activeTab === tab.id
                 //   ? 'bg-blue-500 text-white'
                 //   : 'hover:bg-gray-200'
               }`}
             >
-              {tab.label}
-            </button>
+              {route.label}
+            </Link>
           ))}
         </div>
 

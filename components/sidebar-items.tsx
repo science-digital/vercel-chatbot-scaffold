@@ -26,7 +26,7 @@ export function SidebarItems({ chats }: SidebarItemsProps) {
 
   return (
     <AnimatePresence>
-      <Card className="mb-3 p-1 bg-slate-100">
+      <Card className="p-1 mb-4">
         <CardContent className="m-0 p-0">
           {chats.map(
             (chat, index) =>

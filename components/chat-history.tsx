@@ -14,11 +14,12 @@ interface ChatHistoryProps {
 export async function ChatHistory({ userId }: ChatHistoryProps) {
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-4">
+      <div className="flex items-center justify-between pr-4 mt-5">
         {/* <h4 className="text-sm font-medium">Ideation</h4> */}
-        <button
+        <Link
+          href={'/'}
           // onClick={() => setActiveTab(tab.id)}
-          className={`w-full text-left py-2 mb-2 rounded transition-colors duration-150 ease-in-out ${
+          className={`w-full text-left px-4 pt-4 pb-2 mb-2 rounded transition-colors duration-150 ease-in-out ${
             ''
             // activeTab === tab.id
             //   ? 'bg-blue-500 text-white'
@@ -26,7 +27,7 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
           }`}
         >
           Ideation
-        </button>
+        </Link>
         <Link
           href="/"
           className={cn(
