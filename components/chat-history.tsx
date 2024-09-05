@@ -4,8 +4,9 @@ import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
 import { SidebarList } from '@/components/sidebar-list'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { IconPlus } from '@/components/ui/icons'
+import { CustomInstructionsDialog } from '@/components/custom-instructions-dialog'
 
 interface ChatHistoryProps {
   userId?: string
@@ -28,11 +29,12 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
         >
           Ideation
         </Link>
+        <CustomInstructionsDialog />
         <Link
           href="/"
           className={cn(
             buttonVariants({ variant: 'outline' }),
-            'h-10 justify-end bg-zinc-50 px-4 shadow-none transition-colors hover:bg-zinc-200/40 dark:bg-zinc-900 dark:hover:bg-zinc-300/10'
+            'ml-2 h-8 justify-end bg-zinc-50 px-2 shadow-none transition-colors hover:bg-zinc-200/40 dark:bg-zinc-900 dark:hover:bg-zinc-300/10'
           )}
         >
           <IconPlus className=" stroke-2" />
