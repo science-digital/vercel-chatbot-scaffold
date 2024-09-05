@@ -130,6 +130,39 @@ function SortableCard(props: {
             <Cross2Icon className="h-4 w-4" />
           </Button>
         </div>
+        <div className="mt-4 flex justify-between items-center gap-2">
+          <Popover className="w-full">
+            <PopoverTrigger className="w-full">
+              <Button
+                size="xs"
+                className="text-xs p-1 bg-gray-100 rounded-md flex items-center text-gray-600 w-full basis-1/2"
+              >
+                <Pencil1Icon className="h-4 w-4 mr-2" />
+                Edit
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <p className="text-sm mb-3">Edit snippet.</p>
+              <Button variant="outline">Save</Button>
+              <Button variant="outline">Cancel</Button>
+            </PopoverContent>
+          </Popover>
+          <Popover className="w-full">
+            <PopoverTrigger className="w-full">
+              <Button
+                size="xs"
+                className="text-xs p-1 bg-gray-100 rounded-md flex items-center text-gray-600 w-full basis-1/2"
+              >
+                <EyeOpenIcon className="h-4 w-4 mr-2" />
+                Source
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <p className="text-sm mb-3">Summary of the source here.</p>
+              <Button variant="outline">Full source</Button>
+            </PopoverContent>
+          </Popover>
+        </div>
       </CardContent>
     </Card>
   )
@@ -440,7 +473,7 @@ export default function Component() {
       <DragOverlay>
         {activeId ? (
           <Card className="mb-2 cursor-move">
-            <CardContent className="p-2">
+            <CardContent className="p-2 text-xs">
               {
                 columns
                   .flatMap(col => col.cards)
