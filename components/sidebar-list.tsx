@@ -4,6 +4,8 @@ import { SidebarItems } from '@/components/sidebar-items'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
+import { Button } from './ui/button'
+import Link from 'next/link'
 
 interface SidebarListProps {
   userId?: string
@@ -14,11 +16,33 @@ const loadChats = cache(async (userId?: string) => {
   return await getChats(userId)
 })
 
+const routes = [
+  // { id: 'ideate', label: 'Ideate', description: 'Generate and explore new ideas' },
+  {
+    id: 'hypothesis',
+    label: 'Hypothesis',
+    description: 'Formulate testable predictions'
+  },
+  {
+    id: 'experiment-design',
+    label: 'Experiment Design',
+    description: 'Plan your research methodology'
+  },
+  {
+    id: 'experiment-execution',
+    label: 'Experiment Execution',
+    description: 'Conduct your experiments'
+  },
+  { id: 'analysis', label: 'Analysis', description: 'Interpret your results' },
+  { id: 'outputs', label: 'Outputs', description: 'Present your findings' }
+]
+
 export async function SidebarList({ userId }: SidebarListProps) {
-  const chats = await loadChats(userId)
+  let chats = await loadChats(userId)
 
   if (!chats || 'error' in chats) {
-    redirect('/')
+    // redirect('/')
+    chats = []
   } else {
     return (
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -28,11 +52,31 @@ export async function SidebarList({ userId }: SidebarListProps) {
               <SidebarItems chats={chats} />
             </div>
           ) : (
-            <div className="p-8 text-center">
-              <p className="text-sm text-muted-foreground">No chat history</p>
+            <div className="p-2 text-center">
+              <p className="text-sm text-muted-foreground">
+                <Button variant="link" asChild>
+                  <Link href="/login">Login</Link>
+                </Button>{' '}
+                or Sign up
+              </p>
             </div>
           )}
+          {routes.map(tab => (
+            <button
+              key={tab.id}
+              // onClick={() => setActiveTab(tab.id)}
+              className={`w-full text-left px-4 py-2 mb-2 rounded transition-colors duration-150 ease-in-out ${
+                ''
+                // activeTab === tab.id
+                //   ? 'bg-blue-500 text-white'
+                //   : 'hover:bg-gray-200'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
+
         <div className="flex items-center justify-between p-4">
           <ThemeToggle />
           <ClearHistory clearChats={clearChats} isEnabled={chats?.length > 0} />

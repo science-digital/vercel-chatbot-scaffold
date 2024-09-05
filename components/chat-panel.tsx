@@ -36,24 +36,18 @@ export function ChatPanel({
 
   const exampleMessages = [
     {
-      heading: 'What are the',
-      subheading: 'trending memecoins today?',
-      message: `What are the trending memecoins today?`
+      message:
+        'Help me perform a literature review on the latest Quantum Computing research'
     },
     {
-      heading: 'What is the price of',
-      subheading: '$DOGE right now?',
-      message: 'What is the price of $DOGE right now?'
+      message:
+        'What are some potential research questions related to Quantum Compliers?'
     },
     {
-      heading: 'I would like to buy',
-      subheading: '42 $DOGE',
-      message: `I would like to buy 42 $DOGE`
+      message: 'Suggest improvements for this section of my research paper'
     },
     {
-      heading: 'What are some',
-      subheading: `recent events about $DOGE?`,
-      message: `What are some recent events about $DOGE?`
+      message: 'What tools are available for performing Genomic Analysis?'
     }
   ]
 
@@ -92,10 +86,7 @@ export function ChatPanel({
                   ])
                 }}
               >
-                <div className="text-sm font-semibold">{example.heading}</div>
-                <div className="text-sm text-zinc-600">
-                  {example.subheading}
-                </div>
+                <div className="text-sm text-zinc-600">{example.message}</div>
               </div>
             ))}
         </div>

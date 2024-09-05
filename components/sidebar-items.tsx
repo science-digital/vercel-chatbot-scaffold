@@ -8,6 +8,15 @@ import { removeChat, shareChat } from '@/app/actions'
 import { SidebarActions } from '@/components/sidebar-actions'
 import { SidebarItem } from '@/components/sidebar-item'
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
+
 interface SidebarItemsProps {
   chats?: Chat[]
 }
@@ -17,26 +26,30 @@ export function SidebarItems({ chats }: SidebarItemsProps) {
 
   return (
     <AnimatePresence>
-      {chats.map(
-        (chat, index) =>
-          chat && (
-            <motion.div
-              key={chat?.id}
-              exit={{
-                opacity: 0,
-                height: 0
-              }}
-            >
-              <SidebarItem index={index} chat={chat}>
-                <SidebarActions
-                  chat={chat}
-                  removeChat={removeChat}
-                  shareChat={shareChat}
-                />
-              </SidebarItem>
-            </motion.div>
-          )
-      )}
+      <Card className="mb-3 p-1 bg-slate-100">
+        <CardContent className="m-0 p-0">
+          {chats.map(
+            (chat, index) =>
+              chat && (
+                <motion.div
+                  key={chat?.id}
+                  exit={{
+                    opacity: 0,
+                    height: 0
+                  }}
+                >
+                  <SidebarItem index={index} chat={chat}>
+                    <SidebarActions
+                      chat={chat}
+                      removeChat={removeChat}
+                      shareChat={shareChat}
+                    />
+                  </SidebarItem>
+                </motion.div>
+              )
+          )}
+        </CardContent>
+      </Card>
     </AnimatePresence>
   )
 }

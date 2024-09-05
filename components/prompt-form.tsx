@@ -8,7 +8,7 @@ import { useActions, useUIState } from 'ai/rsc'
 import { UserMessage } from './stocks/message'
 import { type AI } from '@/lib/chat/actions'
 import { Button } from '@/components/ui/button'
-import { IconArrowElbow, IconPlus } from '@/components/ui/icons'
+import { IconArrowElbow, IconAttachment } from '@/components/ui/icons'
 import {
   Tooltip,
   TooltipContent,
@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/tooltip'
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
+import { toast } from 'sonner'
+
 import { useRouter } from 'next/navigation'
 
 export function PromptForm({
@@ -28,7 +30,7 @@ export function PromptForm({
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
-  const { submitUserMessage } = useActions()
+  const { submitUserMessage, describeImage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
 
   React.useEffect(() => {
@@ -36,6 +38,8 @@ export function PromptForm({
       inputRef.current.focus()
     }
   }, [])
+
+  const fileRef = React.useRef<HTMLInputElement>(null)
 
   return (
     <form
@@ -66,6 +70,40 @@ export function PromptForm({
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
+      <input
+        type="file"
+        className="hidden"
+        id="file"
+        ref={fileRef}
+        onChange={async event => {
+          if (!event.target.files) {
+            toast.error('No file selected')
+            return
+          }
+
+          toast.warning('Attachments are not supported here yet')
+          // const file = event.target.files[0]
+          // if (file.type.startsWith('video/')) {
+          //   const responseMessage = await describeImage('')
+          //   setMessages(currentMessages => [
+          //     ...currentMessages,
+          //     responseMessage
+          //   ])
+          // } else {
+          //   const reader = new FileReader()
+          //   reader.readAsDataURL(file)
+
+          //   reader.onloadend = async () => {
+          //     const base64String = reader.result
+          //     const responseMessage = await describeImage(base64String)
+          //     setMessages(currentMessages => [
+          //       ...currentMessages,
+          //       responseMessage
+          //     ])
+          //   }
+          // }
+        }}
+      />
       <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
         <Tooltip>
           <TooltipTrigger asChild>
@@ -74,14 +112,14 @@ export function PromptForm({
               size="icon"
               className="absolute left-0 top-[14px] size-8 rounded-full bg-background p-0 sm:left-4"
               onClick={() => {
-                router.push('/new')
+                fileRef.current?.click()
               }}
             >
-              <IconPlus />
-              <span className="sr-only">New Chat</span>
+              <IconAttachment />
+              <span className="sr-only">Add Attachments</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>New Chat</TooltipContent>
+          <TooltipContent>Add Attachments</TooltipContent>
         </Tooltip>
         <Textarea
           ref={inputRef}
