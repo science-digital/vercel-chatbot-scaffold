@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   DndContext,
   closestCorners,
@@ -26,6 +26,14 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter
+} from '@/components/ui/dialog'
 
 import {
   PlusIcon,
@@ -53,7 +61,7 @@ const initialColumns: KanbanColumn[] = [
       {
         id: 'card-1',
         content:
-          'Enzyme persistence: Scholarship examines how long engineered enzymes remain active in various environmental conditions (soil, water, etc.). Research considers whether persistent enzymes could affect other materials beyond the target plastics.'
+          'Enzyme persistence: Scholarship examines how long engineered enzymes remain active in various environmental conditions (soil, water, etc.).'
       }
     ]
   },
@@ -64,7 +72,7 @@ const initialColumns: KanbanColumn[] = [
       {
         id: 'card-2',
         content:
-          'Bioaccumulation potential: Research investigates whether degradation products or the enzymes themselves could accumulate in living organisms over time.'
+          'Bioaccumulation potential: Research investigates whether degradation products or the enzymes themselves could accumulate in living organisms.'
       },
       {
         id: 'card-3',
@@ -122,46 +130,21 @@ function SortableCard(props: {
             <Cross2Icon className="h-4 w-4" />
           </Button>
         </div>
-        <div className="mt-4 flex justify-between items-center gap-2">
-          <Popover className="w-full">
-            <PopoverTrigger className="w-full">
-              <Button
-                size="xs"
-                className="text-xs p-1 bg-gray-100 rounded-md flex items-center text-gray-600 w-full basis-1/2"
-              >
-                <Pencil1Icon className="h-4 w-4 mr-2" />
-                Edit
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <p className="text-sm mb-3">Edit snippet.</p>
-              <Button variant="outline">Save</Button>
-              <Button variant="outline">Cancel</Button>
-            </PopoverContent>
-          </Popover>
-          <Popover className="w-full">
-            <PopoverTrigger className="w-full">
-              <Button
-                size="xs"
-                className="text-xs p-1 bg-gray-100 rounded-md flex items-center text-gray-600 w-full basis-1/2"
-              >
-                <EyeOpenIcon className="h-4 w-4 mr-2" />
-                Source
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <p className="text-sm mb-3">Summary of the source here.</p>
-              <Button variant="outline">Full source</Button>
-            </PopoverContent>
-          </Popover>
-        </div>
       </CardContent>
     </Card>
   )
 }
 
-function Column({ column, cards, onAddCard, onDeleteCard, onViewSource }) {
+function Column({
+  column,
+  cards,
+  onAddCard,
+  onDeleteCard,
+  onViewSource,
+  onDeleteColumn
+}) {
   const [newCardContent, setNewCardContent] = useState('')
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const handleAddCard = () => {
     if (newCardContent.trim()) {
@@ -183,8 +166,37 @@ function Column({ column, cards, onAddCard, onDeleteCard, onViewSource }) {
       ref={setNodeRef}
       className="bg-gray-200 p-4 rounded-lg flex-shrink-0 w-64"
     >
-      <h2 className="font-semibold mb-2">{column.title}</h2>
-      <div className="overflow-y-auto max-h-[calc(100vh-250px)] min-h-[100px]">
+      <div className="flex justify-between items-center">
+        <h2 className="font-semibold mb-2">{column.title}</h2>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="ghost" size="sm">
+              <Cross2Icon className="h-4 w-4" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirm Delete</DialogTitle>
+            </DialogHeader>
+            <p>
+              Are you sure you want to delete the column "{column.title}"? This
+              action cannot be undone.
+            </p>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => onDeleteColumn(column.id)}
+              >
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="mt-2 overflow-y-auto max-h-[calc(100vh-250px)] min-h-[100px]">
         <SortableContext
           items={cards.map((card: { id: any }) => card.id)}
           strategy={verticalListSortingStrategy}
@@ -231,6 +243,22 @@ export default function Component() {
       coordinateGetter: sortableKeyboardCoordinates
     })
   )
+
+  // Add a useEffect to handle user-select during drag
+  useEffect(() => {
+    if (activeId !== null) {
+      // Disable text selection
+      document.body.style.userSelect = 'none'
+    } else {
+      // Re-enable text selection
+      document.body.style.userSelect = 'auto'
+    }
+
+    // Cleanup function to reset user-select when the component is unmounted or drag ends
+    return () => {
+      document.body.style.userSelect = 'auto'
+    }
+  }, [activeId])
 
   const findColumnForCard = (cardId: string) => {
     return columns.find(column => column.cards.some(card => card.id === cardId))
@@ -359,9 +387,8 @@ export default function Component() {
     )
   }
 
-  const handleViewSource = (cardId: any) => {
-    // Implement view source functionality here
-    console.log(`View source for card ${cardId}`)
+  const handleDeleteColumn = (columnId: string) => {
+    setColumns(prevColumns => prevColumns.filter(col => col.id !== columnId))
   }
 
   const handleAddColumn = () => {
@@ -386,10 +413,9 @@ export default function Component() {
         <div className="mb-2">
           <h1 className="text-3xl font-bold mb-2">Hypothesis</h1>
           <p className="text-gray-600">
-            Organise snippets of information and data into key areas to shape
-            your hypothesis.
+            Organise artefacts into key areas to shape your hypothesis.
           </p>
-          <div className="flex justify-end mb-10 -mt-10">
+          <div className="flex justify-end mb-6 -mt-10">
             <Button onClick={handleAddColumn}>
               <PlusIcon className="mr-2 h-4 w-4" />
               Add Column
@@ -405,7 +431,8 @@ export default function Component() {
               cards={column.cards}
               onAddCard={handleAddCard}
               onDeleteCard={handleDeleteCard}
-              onViewSource={handleViewSource}
+              onViewSource={() => {}}
+              onDeleteColumn={handleDeleteColumn}
             />
           ))}
         </div>
