@@ -73,11 +73,6 @@ const initialColumns: KanbanColumn[] = [
         id: 'card-2',
         content:
           'Bioaccumulation potential: Research investigates whether degradation products or the enzymes themselves could accumulate in living organisms.'
-      },
-      {
-        id: 'card-3',
-        content:
-          'Enzyme function: Studies explore the effectiveness of engineered enzymes in breaking down different types of plastics.'
       }
     ]
   },
