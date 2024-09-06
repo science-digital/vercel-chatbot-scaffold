@@ -1,5 +1,5 @@
 import { auth } from '@/auth'
-import Kanban from '@/components/kanban'
+import Kanban from '@/components/hypothesis-kanban'
 import { Session } from '@/lib/types'
 import { redirect } from 'next/navigation'
 import ChatLayout from '../(chat)/layout'

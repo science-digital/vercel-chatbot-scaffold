@@ -31,7 +31,7 @@ export function CustomInstructionsDialog() {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <Textarea
-            placeholder="e.g. assume the persona of a bioinformatics researcher specializing in genomic data analysis. You are familiar with tools like BLAST, R, and Python for large-scale data processing, and you can help interpret complex biological data"
+            placeholder="e.g. assume the persona of a bioinformatics researcher specializing in genomic data analysis. You are familiar with tools like BLAST, R, and Python for large-scale data processing, you use all available tools to help interpret complex biological data"
             className="min-h-[200px]"
           />
           <div className="flex justify-end gap-2">

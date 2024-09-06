@@ -444,6 +444,9 @@ export default function Component() {
             Organise artefacts into key areas to shape your hypothesis.
           </p>
           <div className="flex justify-end mb-6 -mt-10">
+            <Button variant="outline" className="mr-3">
+              ✨ Suggest Improvements
+            </Button>
             <Button onClick={handleAddColumn}>
               <PlusIcon className="mr-2 h-4 w-4" />
               Add Column
