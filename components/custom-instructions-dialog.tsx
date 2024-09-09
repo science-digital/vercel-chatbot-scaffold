@@ -10,6 +10,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { GearIcon } from '@radix-ui/react-icons'
+import { LLMSelector } from '@/components/llm-selector'
 
 export function CustomInstructionsDialog() {
   return (
@@ -24,12 +25,19 @@ export function CustomInstructionsDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Custom Instructions</DialogTitle>
+          <DialogTitle>AI Agent Configuration</DialogTitle>
           <DialogDescription>
-            Enter custom instructions for the AI Agent.
+            Configure the foundational model and persona.
           </DialogDescription>
         </DialogHeader>
+
+        <h3 className="mt-3 -mb-3 font-bold">LLM:</h3>
+        <LLMSelector />
+
         <div className="grid gap-4 py-4">
+          <h3 className="-mb-3 font-bold">
+            Custom instructions / agent persona:
+          </h3>
           <Textarea
             placeholder="e.g. assume the persona of a bioinformatics researcher specializing in genomic data analysis. You are familiar with tools like BLAST, R, and Python for large-scale data processing, you use all available tools to help interpret complex biological data"
             className="min-h-[200px]"
