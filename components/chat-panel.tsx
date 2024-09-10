@@ -19,6 +19,7 @@ export interface ChatPanelProps {
   setInput: (value: string) => void
   isAtBottom: boolean
   scrollToBottom: () => void
+  exampleMessages?: { message: string }[]
 }
 
 export function ChatPanel({
@@ -27,29 +28,32 @@ export function ChatPanel({
   input,
   setInput,
   isAtBottom,
-  scrollToBottom
+  scrollToBottom,
+  exampleMessages
 }: ChatPanelProps) {
   const [aiState] = useAIState()
   const [messages, setMessages] = useUIState<typeof AI>()
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
 
-  const exampleMessages = [
-    {
-      message:
-        'Help me perform a literature review on the latest Quantum Computing research'
-    },
-    {
-      message:
-        'What are some potential research questions related to Quantum Compliers?'
-    },
-    {
-      message: 'Suggest improvements for this section of my research paper'
-    },
-    {
-      message: 'What tools are available for performing Genomic Analysis?'
-    }
-  ]
+  if (!exampleMessages) {
+    exampleMessages = [
+      {
+        message:
+          'Help me perform a literature review on the latest Quantum Computing research'
+      },
+      {
+        message:
+          'What are some potential research questions related to Quantum Compliers?'
+      },
+      {
+        message: 'Suggest improvements for this section of my research paper'
+      },
+      {
+        message: 'What tools are available for performing Genomic Analysis?'
+      }
+    ]
+  }
 
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">

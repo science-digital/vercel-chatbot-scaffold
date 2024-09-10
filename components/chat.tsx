@@ -5,7 +5,7 @@ import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
 import { EmptyScreen } from '@/components/empty-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
 import { Message, Session } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
@@ -17,14 +17,25 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   id?: string
   session?: Session
   missingKeys: string[]
+  emptyScreen?: React.ReactNode
+  exampleMessages?: { message: string }[]
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+export function Chat({
+  id,
+  className,
+  session,
+  missingKeys,
+  emptyScreen,
+  exampleMessages
+}: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
   const [messages] = useUIState()
   const [aiState] = useAIState()
+
+  if (!emptyScreen) emptyScreen = <EmptyScreen />
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
@@ -68,7 +79,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         {messages.length ? (
           <ChatList messages={messages} isShared={false} session={session} />
         ) : (
-          <EmptyScreen />
+          emptyScreen
         )}
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
@@ -78,6 +89,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
+        exampleMessages={exampleMessages}
       />
     </div>
   )

@@ -44,7 +44,6 @@ import {
   AnalysisTools,
   AnalysisToolsLoading
 } from '@/components/analysis-tools/analysis-tools'
-import React from 'react'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -240,7 +239,7 @@ async function submitUserMessage(content: string) {
     If the user requests tools to perform analysis, call \`recommend_analysis_tools_ui\` to show the UI for Tool Recommendations.
 
     If the user wants to execute an experiment directly, or complete another impossible task, respond that you are a demo and cannot do that.
-
+    
     Besides that, you can also chat with users and do some basic calculations if needed.`,
     // system: `\
     // You are a Scientific Research bot and you can help researchers, step by step.
@@ -357,25 +356,21 @@ async function submitUserMessage(content: string) {
         description:
           'List recommended tools for analysing experiment results, max 5.',
         parameters: z.object({
-          analysisTools: z.object({
-            topic: z.string().describe('The problem or topic of the analysis'),
-            recommendations: z.array(
-              z.object({
-                name: z.string().describe('The name of the tool'),
-                description: z.string().describe('The description of the tool'),
-                category: z.string().describe('The category of the tool'),
-                url: z
-                  .string()
-                  .describe('A URL to learn more or access to the tool')
-              })
-            )
-          })
+          analysisTools: z.array(
+            z.object({
+              name: z.string().describe('The name of the tool'),
+              description: z.string().describe('The description of the tool'),
+              category: z.string().describe('The category of the tool'),
+              url: z
+                .string()
+                .describe('A URL to learn more or access to the tool')
+            })
+          )
         }),
         generate: async function* ({ analysisTools }) {
-          console.log('generate', { analysisTools })
           yield (
             <BotCard>
-              <AnalysisToolsLoading props={analysisTools} />
+              <AnalysisToolsLoading />
             </BotCard>
           )
 
