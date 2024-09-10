@@ -1,5 +1,6 @@
 import 'server-only'
 
+import React from 'react'
 import {
   createAI,
   createStreamableUI,
@@ -39,12 +40,10 @@ import { Video } from '@/components/media/video'
 import { rateLimit } from './ratelimit'
 import { toast } from 'sonner'
 import { ListBulletIcon } from '@radix-ui/react-icons'
-// import { ToolRecommender } from '@/components/analysis-tools/tool-recommender'
 import {
   AnalysisTools,
   AnalysisToolsLoading
 } from '@/components/analysis-tools/analysis-tools'
-import React from 'react'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -372,7 +371,6 @@ async function submitUserMessage(content: string) {
           })
         }),
         generate: async function* ({ analysisTools }) {
-          console.log('generate', { analysisTools })
           yield (
             <BotCard>
               <AnalysisToolsLoading props={analysisTools} />

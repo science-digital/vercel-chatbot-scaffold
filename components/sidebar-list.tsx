@@ -34,7 +34,8 @@ const routes = [
     description: 'Conduct your experiments'
   },
   { id: 'analysis', label: 'Analysis', description: 'Interpret your results' },
-  { id: 'outputs', label: 'Outputs', description: 'Present your findings' }
+  { id: 'outputs', label: 'Outputs', description: 'Present your findings' },
+  { id: 'lab-book', label: 'Lab Book', description: 'Summarised activities' }
 ]
 
 export async function SidebarList({ userId }: SidebarListProps) {

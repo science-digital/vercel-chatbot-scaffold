@@ -15,6 +15,9 @@ interface ChatHistoryProps {
 export async function ChatHistory({ userId }: ChatHistoryProps) {
   return (
     <div className="flex flex-col h-full">
+      <h2 className="text-2xl font-bold w-full text-left px-4 pt-4 pb-2">
+        My Project
+      </h2>
       <div className="flex items-center justify-between pr-4 mt-5">
         {/* <h4 className="text-sm font-medium">Ideation</h4> */}
         <Link

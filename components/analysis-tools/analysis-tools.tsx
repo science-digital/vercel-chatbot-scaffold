@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import React from 'react'
+import { BotMessage } from '@/components/stocks/message'
 
 interface Reccomendation {
   name: string
@@ -28,9 +29,10 @@ export function AnalysisTools({
 }: {
   props: AnalysisTools
 }) {
-  console.log('props', { topic, recommendations })
-
-  if (!topic) return null
+  if (!topic)
+    return (
+      <BotMessage content="An unexpected error occured, I was unable to load tool suggestions." />
+    )
   return (
     <div className="container mx-auto">
       <h3 className="text-xl font-bold mb-6">Tools for {topic}</h3>
