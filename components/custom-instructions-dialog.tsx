@@ -39,7 +39,7 @@ export function CustomInstructionsDialog() {
             Custom instructions / agent persona:
           </h3>
           <Textarea
-            placeholder="e.g. assume the persona of a bioinformatics researcher specializing in genomic data analysis. You are familiar with tools like BLAST, R, and Python for large-scale data processing, you use all available tools to help interpret complex biological data"
+            placeholder="e.g. assume the persona of a bioinformatics researcher specializing in genomic data analysis. You are familiar with tools like BLAST, R, and Python for large-scale data processing. You use tool-calling to invoke highly specialised tools to handle tasks wherever possible"
             className="min-h-[200px]"
           />
           <div className="flex justify-end gap-2">

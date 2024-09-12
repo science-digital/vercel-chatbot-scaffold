@@ -77,7 +77,8 @@ export default function Projects() {
           <Card key={project.id} className="flex flex-col">
             <CardHeader className="flex flex-row items-start justify-between space-y-0">
               <div>
-                <Link href={`projects/${project.id}`}>
+                <Link href="/">
+                  {/* <Link href={`projects/${project.id}`}> */}
                   <CardTitle className="text-xl font-bold mb-2">
                     {project.name}
                   </CardTitle>
